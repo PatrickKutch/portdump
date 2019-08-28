@@ -359,7 +359,11 @@ class PortDumper(object):
         try:
             ethtool_value_struct = array.array('B', struct.pack('II',what,0))
             self._send_ioctl(ethtool_value_struct)
-            cmd,data = struct.unpack("II",ethtool_value_struct)            
+            cmd,data = struct.unpack("II",ethtool_value_struct)    
+            if 1 == data:
+                data = 'true'
+            elif 0 == data:
+                data = 'false'
             retVal.append((description,data))
         except:
             retVal.append((description,"Not Supported"))
